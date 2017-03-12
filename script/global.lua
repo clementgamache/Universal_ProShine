@@ -13,6 +13,7 @@ hunting_region = "Yo Moma"
 has_mount = false
 mount_name = "Cadillac"
 last_map = "yoMama"
+fishing_rod = "lololo"
 
 pokemon_names = {"Heracross", "Yanma",  "Snubbull", "Slakoth", "Snorlax", "Larvitar", "Squirtle", "Budew", "Dratini", "Charmander", "Magmar"}
 

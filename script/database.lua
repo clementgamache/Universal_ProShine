@@ -2,7 +2,7 @@ dofile "utilities.lua"
 
 --pairs of maps
 map_pairs = {
-	{{"Route 9"},{"Route 10",0,0,25,11}}, --I know it is a duplicate. I want to give Route 10 priority before Cerulean
+	{{"Route 9"},{"Route 10",0,0,25,11}}, --I know it is a duplicate. I want to give Route 10 priority before Cerulean about the pokecenter
 	{{"Bike Road Stop"},{"Route 18"}},
 	{{"Blackthorn City"},{"Dragons Den Entrance"}},
 	{{"Blackthorn City"},{"Pokecenter Blackthorn"}},
@@ -34,7 +34,15 @@ map_pairs = {
 	{{"Indigo Plateau"},{"Indigo Plateau Center"}},
 	{{"Indigo Plateau"},{"Victory Road Kanto 3F"}},
 	{{"Lavender Town"},{"Pokecenter Lavender"}},
+	{{"Lavender Town"},{"Pokemon Tower 1F"}},
+	{{"Pokemon Tower 1F"},{"Pokemon Tower 2F"}},
+	{{"Pokemon Tower 2F"},{"Pokemon Tower 3F"}},
+	{{"Pokemon Tower 3F"},{"Pokemon Tower 4F"}},
+	{{"Pokemon Tower 4F"},{"Pokemon Tower 5F"}},
+	{{"Pokemon Tower 5F"},{"Pokemon Tower 6F"}},
+	{{"Pokemon Tower 6F"},{"Pokemon Tower 7F"}},
 	{{"Lavender Town"},{"Route 8"}},
+	{{"Lavender Town"},{"Route 10",0,43,100,100}},
 	{{"Lavender Town"},{"Route 12"}}, --Only if passed snorlax
 	{{"Mt. Moon B1F",53,15,100,35},{"Mt. Moon 1F"}}, --cell 21,20 to get to Mt. Moon B1F
 	{{"Mt. Moon B1F",53,15,100,35},{"Mt. Moon B2F"}}, --56,34 for to b2f 38,40 fot to b1f
@@ -47,13 +55,19 @@ map_pairs = {
 	{{"Pallet Town"},{"Route 21"}},
 	{{"Pewter City"},{"Pokecenter Pewter"}},
 	{{"Pewter City"},{"Route 2",0,0,45,90}},
-	{{"Pewter City"},{"Route 5"}},
+	{{"Pewter City"},{"Route 3"}},
 	{{"Pokecenter Route 3"},{"Route 3"}},
 	{{"Pokecenter Route 10"},{"Route 10",0,0,25,11}},
 	{{"Pokecenter Vermilion"},{"Vermilion City"}},
 	{{"Pokecenter Saffron"},{"Saffron City"}},
 	{{"Pokecenter Viridian"},{"Viridian City"}},
-	{{"Rock Tunnel 1"},{"Route 10",0,0,25,11}},
+	{{"Rock Tunnel 1",33,0,100,18},{"Route 10",0,0,25,11}}, 
+	{{"Rock Tunnel 1",33,0,100,18},{"Rock Tunnel 2",36,0,100,17}}, --2->1 : 36,16
+	{{"Rock Tunnel 2",0,0,35,11},{"Rock Tunnel 2",36,0,100,17}}, --36,5 and 35,5
+	{{"Rock Tunnel 2",0,0,35,11},{"Rock Tunnel 1",0,0,28,16}}, --2->1 7,5 1->2 7,7
+	{{"Rock Tunnel 2",0,12,29,100},{"Rock Tunnel 1",0,0,28,16}}, --1->2 8,15 2->1 10,13
+	{{"Rock Tunnel 2",0,12,29,100},{"Rock Tunnel 1",0,19,1000,1000}}, --1->2 7,30 2->1 10,13
+	{{"Rock Tunnel 1",0,19,1000,1000},{"Route 10",0,43,100,100}},
 	{{"Route 1"},{"Route 1 Stop House"}},
 	{{"Route 1 Stop House"},{"Viridian City"}},
 	{{"Route 2"},{"Route 2 Stop2"}},
@@ -77,9 +91,9 @@ map_pairs = {
 	{{"Route 8"},{"Route 8 Stop House"}},
 	--{{"Route 8 Stop House"},{"Saffron City"}},--has to have discovered Saffron
 	{{"Route 9"},{"Route 10",0,0,25,11}}, --87,33
-	{{"Route 9"},{"Route 10",26,0,100,100}}, --91,33
-	{{"Route 10",0,12,25,100},{"Route 10",26,0,100,100}}, --25,24 et 26,24
-	{{"Route 10",0,12,25,100},{"Power Plant"}}, --1,31,7,36
+	{{"Route 9"},{"Route 10",26,0,100,42}}, --91,33
+	{{"Route 10",0,12,25,42},{"Route 10",26,0,100,42}}, --25,24 et 26,24
+	{{"Route 10",0,12,25,42},{"Power Plant"}}, --1,31,7,36
 	{{"Route 11"},{"Vermilion City"}},
 	{{"Route 11"},{"Route 11 Stop House"}},
 	--{{"Route 11 Stop House"},{"Route 12"}}, --Only if passed snorlax
@@ -110,15 +124,29 @@ move_to_cells = {
 	{{"Cinnabar Island"},{"Route 20",0,36,1000,1000},45,28}, --0,36 to island, 45,28 to route
 	{{"Cinnabar Island"},{"Route 20",0,36,1000,1000},0,36}, --0,36 to island, 45,28 to route
 	{{"Route 9"},{"Route 10",0,0,25,11},87,33}, --87,33
-	{{"Route 9"},{"Route 10",26,0,100,100},91,33}, --91,33
-	{{"Route 10",0,12,25,100},{"Route 10",26,0,100,100},26,24}, --25,24 et 26,24
-	{{"Route 10",26,0,100,100},{"Route 10",0,12,25,100},25,24}
+	{{"Route 9"},{"Route 10",26,0,100,42},91,33}, --91,33
+	{{"Route 10",0,12,25,42},{"Route 10",26,0,100,42},26,24}, --25,24 et 26,24
+	{{"Route 10",26,0,100,42},{"Route 10",0,12,25,42},25,24},
+	{{"Rock Tunnel 2",36,0,100,17},{"Rock Tunnel 1",33,0,100,18},36,16}, --2->1 : 36,16
+	{{"Rock Tunnel 2",0,0,35,11},{"Rock Tunnel 2",36,0,100,17},36,5}, --36,5 and 35,5
+	{{"Rock Tunnel 2",36,0,100,17},{"Rock Tunnel 2",0,0,35,11},35,5}, --36,5 and 35,5
+	{{"Rock Tunnel 2",0,0,35,11},{"Rock Tunnel 1",0,0,28,16},7,5}, --2->1 7,5 1->2 7,7
+	{{"Rock Tunnel 1",0,0,28,16},{"Rock Tunnel 2",0,0,35,11},7,7},
+	{{"Rock Tunnel 2",0,12,29,100},{"Rock Tunnel 1",0,0,28,16},10,13}, --1->2 8,15 2->1 10,13
+	{{"Rock Tunnel 1",0,0,28,16},{"Rock Tunnel 2",0,12,29,100},8,15}, --1->2 8,15 2->1 10,13
+	{{"Rock Tunnel 2",0,12,29,100},{"Rock Tunnel 1",0,19,1000,1000},8,26} --1->2 7,30 2->1 10,13
 }
 
 --regular expressions where you can't use your bicycle
 uncyclable_strings = {
 	"Power Plant", "Seafoam", "Route 20", "Route 19", "Cave", "House", "Underground", "Pokecenter", "Dragons Den", "Cinnabar mansion", "Mt. Moon", "Victory Road", "Plateau Center", "Stop", "Silver 1F", "Silver 2F", "Silver 3F", "Silver 4F"
 }	
+
+fishing_rods = {
+	"Super Rod",
+	"Good Rod",
+	"Old Rod"
+}
 
 possible_mounts = {
 	"Bicycle"
@@ -151,7 +179,7 @@ rectangle_regions = {
 }
 
 --regions where you want to fish. Specify the region name and the square on which you wish to fish
-fish_regions = {}
+fish_regions = {{"Route 6", 23,43}}
 
 --pokecenters that are not pokecenters
 fake_pokecenters = {{"Indigo Plateau Center", 4, 22}}
@@ -228,7 +256,9 @@ blacklist = {
 	"Porygon2", "Porygon-Z", 
 	"Omastar", 
 	"Kabutops", 
-	"Dragonair", "Dragonite"
+	"Dragonair", "Dragonite",
+	"Noctowl",
+	"Quagsire"
 
 }
 

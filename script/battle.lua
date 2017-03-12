@@ -19,7 +19,8 @@ function hunt()
 		if value[1] == hunting_region then
 			
 			if getPlayerX() == value[2] and getPlayerY() == value[3] then
-				useItem("Super Rod")
+				useItem(fishing_rod)
+				return
 			else
 				moveToCell(value[2], value[3])
 				return
@@ -31,9 +32,12 @@ function hunt()
 end
 
 function shouldCatch()
-	if not catching then
+	if (not hasItem("Pokeball")) and (not hasItem("Great Ball")) and (not hasItem("Ultra Ball")) then
+		log("No more Pokeball")
 		return false
-	if has_value(pokemon_names, getOpponentName()) then
+	elseif not catching then
+		return false
+	elseif has_value(pokemon_names, getOpponentName()) then
 		return true
 	elseif isOpponentShiny() then
 		return true
@@ -51,17 +55,19 @@ function canUseMove(num, move)
 end
 
 function battle()
-	if getPokemonLevel(1) > 97 then 
-		fatal("level 99")
+	for i = 1, pokemons_to_train do
+		if getPokemonLevel(i) >= max_level then 
+			fatal("level " .. max_level)
+		end
 	end
 	if shouldCatch() then
-        if getOpponentHealth() > 6 and canUseMove(swiper, swipe_move) and use_swiper then
+        if use_swiper and getOpponentHealth() > 6 and canUseMove(swiper, swipe_move) then
 			if getActivePokemonNumber() == swiper and canUseMove(swiper, swipe_move) then
 				return useMove(swipe_move) or useItem("Pokeball") or useItem("Great Ball") or useItem("Ultra Ball") or attack() or run() or sendUsablePokemon()
 			else
 				return sendPokemon(swiper) or useItem("Pokeball") or useItem("Great Ball") or useItem("Ultra Ball") or attack() or run() or sendUsablePokemon()
 			end
-		elseif (not (getOpponentStatus() == "SLEEP")) and canUseMove(sleeper, sleep_move) and use_swiper then
+		elseif use_sleeper and (not (getOpponentStatus() == "SLEEP")) and canUseMove(sleeper, sleep_move) then
 			if getActivePokemonNumber() == sleeper and canUseMove(sleeper, sleep_move) then
 				return useMove(sleep_move) or useItem("Pokeball") or useItem("Great Ball") or useItem("Ultra Ball") or attack() or run() or sendUsablePokemon()
 			else 
@@ -70,9 +76,10 @@ function battle()
 		else
 			return useItem("Pokeball") or useItem("Great Ball") or useItem("Ultra Ball") or attack() or run() or sendUsablePokemon()
 		end
-	else
-		
+	elseif getMapName() == hunting_region then	
 		return (training and (attack() or sendUsablePokemon())or run()) or run() or sendUsablePokemon()
+	else
+		return run() or attack() or sendUsablePokemon()
 	end
 end
 

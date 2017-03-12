@@ -56,6 +56,16 @@ function setAutoConfig()
 	setMount()
 	setSwiper()
 	setSleeper()
+	setRod()
+end
+
+function setRod()
+	for index, value in ipairs (fishing_rods) do
+		if hasItem(value) then
+			fishing_rod = value
+			return
+		end
+	end
 end
 
 function setMount()
@@ -94,7 +104,7 @@ function setSleeper()
 			end
 		end
 	end
-	use_leeper = false
+	use_sleeper = false
 end
 
 

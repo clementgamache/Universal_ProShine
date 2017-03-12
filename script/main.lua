@@ -20,8 +20,9 @@ function onStart()
 	
 	training = true
 	catching = true
-	pokemons_to_train = 1
-	hunting_region = "Cinnabar mansion 1"
+	pokemons_to_train = 4
+	hunting_region = "Mt. Moon 1F"
+	max_level = 21
 
 	pokemon_names = {"Snorlax", "Larvitar", "Squirtle", "Budew", "Dratini", "Charmander", "Magmar", "Electabuzz"}
 
